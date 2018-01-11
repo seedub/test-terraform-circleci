@@ -1,0 +1,17 @@
+dependencies:
+  cache_directories:
+    - terraform_0.11.2
+  pre:
+    - mkdir -p terraform_0.11.2
+    - wget -O terraform_0.11.2/terraform_0.11.2_linux_amd64.zip https://releases.hashicorp.com/terraform/0.11.2/terraform_0.11.2_linux_amd64.zip
+    - unzip terraform_0.11.2/terraform_0.11.2_linux_amd64.zip
+
+test:
+  override:
+    - ./terraform plan --out=terraform.plan
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - ./terraform apply terraform.plan
